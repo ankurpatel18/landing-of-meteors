@@ -16,19 +16,20 @@ def get_dist(meteor):
     return meteor.get('distance', math.inf)
 
 
-my_loc = (12.3106435,76.6006703) 
+if __name__ == '__main__':
+    my_loc = (12.3106435,76.6006703) 
 
-meteor_res = requests.get('https://data.nasa.gov/resource/gh4g-9sfh.json') 
-    
-meteor_data = meteor_res.json()
+    meteor_res = requests.get('https://data.nasa.gov/resource/gh4g-9sfh.json') 
+        
+    meteor_data = meteor_res.json()
 
-for meteor in meteor_data: 
-    if not('reclat' in meteor and 'reclong' in meteor): continue
-    meteor['distance'] = calc_dist(float(meteor['reclat']), float(meteor['reclong']), my_loc[0], my_loc[1]) 
+    for meteor in meteor_data: 
+        if not('reclat' in meteor and 'reclong' in meteor): continue
+        meteor['distance'] = calc_dist(float(meteor['reclat']), float(meteor['reclong']), my_loc[0], my_loc[1]) 
 
 
-meteor_data.sort(key=get_dist)
+    meteor_data.sort(key=get_dist)
 
-print(meteor_data[0:10])
+    print(meteor_data[0:10])
 
-len([m for m in meteor_data if 'distance' not in m])
+    print(len([m for m in meteor_data if 'distance' not in m]))
